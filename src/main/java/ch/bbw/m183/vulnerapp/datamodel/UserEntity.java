@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -16,12 +17,14 @@ import lombok.experimental.Accessors;
 public class UserEntity {
 
 	@Id
+	@NotBlank(message = "You need a username")
 	String username;
 
 	@Column
 	String fullname;
 
 	@Column
+	@NotBlank(message = "You need a password")
 	String password;
 
 }

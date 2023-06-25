@@ -1,6 +1,7 @@
 package ch.bbw.m183.vulnerapp.service;
 
 import ch.bbw.m183.vulnerapp.datamodel.UserEntity;
+import ch.bbw.m183.vulnerapp.repository.UserRepository;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,15 +15,16 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class LoginService {
 
+	private final UserRepository userRepository;
 	private final EntityManager entityManager;
 
-	public ResponseEntity<UserEntity> whoami(String username, String password) {
-		// native queries are more performant!!1 :P
-		var user = (UserEntity) entityManager.createNativeQuery("SELECT * from users where username='" + username + "'", UserEntity.class)
-				.getSingleResult();
-		if (password.equals(user.getPassword())) {
-			return ResponseEntity.ok(user);
+	public ResponseEntity<UserEntity> whoami(String username) throws Exception {
+		if (userRepository.findById(username).isPresent()) {
+			UserEntity user = userRepository.findById(username).get();
+			return ResponseEntity.status(200).body(user);
 		}
-		return ResponseEntity.status(403).body(user);
+/*		return userRepository.findById(username)
+				.orElse(new UserEntity().setUsername("idk"));*/
+		throw new Exception("Login Error");
 	}
 }
