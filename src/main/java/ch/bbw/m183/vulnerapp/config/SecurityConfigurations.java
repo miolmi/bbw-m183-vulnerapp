@@ -32,14 +32,6 @@ public class SecurityConfigurations {
 
     @Bean
     public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
-        UserDetails user = User.withUsername("foo")
-                .password(passwordEncoder.encode("bar"))
-                .roles("USER")
-                .build();
-        UserDetails admin = User.withUsername("admin")
-                .password(passwordEncoder.encode("super5ecret"))
-                .roles("USER", "ADMIN")
-                .build();
 
         return new UserDetailsService() {
             @Override
@@ -83,7 +75,6 @@ public class SecurityConfigurations {
                         .anyRequest().permitAll()
                 ).build();
     }
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {

@@ -15,8 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class LoginService {
 
-	private final UserRepository userRepository;
 	private final EntityManager entityManager;
+	private final UserRepository userRepository;
 
 	public ResponseEntity<UserEntity> whoami(String username) throws Exception {
 		if (userRepository.findById(username).isPresent()) {
